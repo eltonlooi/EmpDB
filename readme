@@ -5,7 +5,7 @@
 #!/bin/bash
 yum update -y
 yum install git -y
-git clone https://github.com/eltonlooi/cloudcomputing-assignment.git
+git clone https://github.com/eltonlooi/EmpDB.git
 cd cloudcomputing-assignment
 yum install python-pip -y
 pip3 install flask pymysql boto3
