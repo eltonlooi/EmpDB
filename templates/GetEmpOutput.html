@@ -34,8 +34,7 @@
         </div>
     </div>
 	<h1>Employee Information</h1>
-
-	<form>
+	<form action="/getEmp" autocomplete="on" method="POST">
 		<div>
 			<label>Employee ID:</label> {{ id }} <br><br>
 			<label>First Name:</label> {{ fname }} <br><br>
@@ -50,8 +49,14 @@
 			<label>Benefit:</label> {{ ben }} <br><br>
 			<label>Image URL:</label> {{ image }} <br><br>
 	
-			<button type="submit" formaction="http://3.134.115.108:80/getemp">RESET</button><br><br>
+			<button type="submit"> Back </button><br><br>
 		</div>
 	</form>
+	<form action="/deleteEmp" method="POST">
+		<h2>DO YOU WANT TO DELETE?</h2><br>
+    	<input type="hidden" name="employee_id" value="{{ id }}">
+		<button type="submit">Delete</button>
+	</form>
+
 </body>
 </html>
