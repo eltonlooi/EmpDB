@@ -23,7 +23,15 @@ table = 'employee'
 
 @app.route("/")
 def loadPage():
-    return render_template('AddEmp.html', img_path="static/img/")
+    return render_template('index.html', img_path="static/img/")
+
+@app.route("/home", methods=['GET', 'POST'])
+def home():
+    return render_template('index.html', img_path="static/img/")
+
+@app.route("/about", methods=['GET', 'POST'])
+def about():
+    return render_template('about.html', img_path="static/img/")
 
 @app.route("/addEmpOuput", methods=['GET', 'POST'])
 def addEmpOutput():
