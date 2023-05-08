@@ -23,7 +23,15 @@ table = 'employee'
 
 @app.route("/")
 def loadPage():
-    return render_template('AddEmp.html', img_path="static/img/")
+    return render_template('index.html', img_path="static/img/")
+
+@app.route("/home", methods=['GET', 'POST'])
+def home():
+    return render_template('index.html', img_path="static/img/")
+
+@app.route("/about", methods=['GET', 'POST'])
+def about():
+    return render_template('about.html', img_path="static/img/")
 
 @app.route("/addEmpOuput", methods=['GET', 'POST'])
 def addEmpOutput():
@@ -40,6 +48,10 @@ def getEmpOutput():
 @app.route("/addEmpHome", methods=['GET', 'POST'])
 def addEmpHome():
     return render_template('AddEmp.html', img_path="static/img/")
+
+@app.route("/deleteEmpPage", methods=['GET', 'POST'])
+def deleteEmpPage():
+    return render_template('DeleteEmp.html', img_path="static/img/")
 
 @app.route("/addEmp", methods=['POST'])
 def addEmp():
@@ -163,6 +175,29 @@ def fetchInfo():
     finally:
             
         mycursor.close()
+
+
+@app.route("/deleteEmp", methods=['POST'])
+def delete_emp():
+    employee_id = request.form['employee_id']
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute("DELETE FROM employee WHERE emp_id = %s", (employee_id,))
+        db_conn.commit()
+
+        # Delete employee image from S3
+        emp_image_file_name_in_s3 = "emp-id-" + str(employee_id) + "_image_file"
+        s3 = boto3.resource('s3')
+        s3.Object(custombucket, emp_image_file_name_in_s3).delete()
+
+        # Redirect to a success or confirmation page
+        return render_template('DeleteEmp.html', img_path="static/img/")
+    except Exception as e:
+        # Handle the case when the employee is not found in the database
+        return render_template('DeleteEmp.html', img_path="static/img/")
+    finally:
+        cursor.close()
 
             
 if __name__ == '__main__':
